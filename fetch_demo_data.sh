@@ -1,7 +1,20 @@
-# Google drive link to download the model
-gdown https://drive.google.com/uc?id=1mv7CUAnm73oKsEEG1xE3xH2C_oqcFSzT
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Alternatively, you can use wget
-#wget https://www.cs.utexas.edu/~pavlakos/hamer/data/hamer_demo_data.tar.gz
+BASE_URL="https://github.com/PINTO0309/hamer/releases/download/data"
+ARCHIVE="hamer_demo_data.tar.gz"
+PARTS=(
+    "${ARCHIVE}.part.000"
+    "${ARCHIVE}.part.001"
+    "${ARCHIVE}.part.002"
+    "${ARCHIVE}.part.003"
+)
 
-tar --warning=no-unknown-keyword --exclude=".*" -xvf hamer_demo_data.tar.gz
+for part in "${PARTS[@]}"; do
+    if [[ ! -f "${part}" ]]; then
+        wget -O "${part}" "${BASE_URL}/${part}"
+    fi
+done
+
+cat "${PARTS[@]}" > "${ARCHIVE}"
+tar --warning=no-unknown-keyword --exclude=".*" -xvf "${ARCHIVE}"

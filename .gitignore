@@ -9,6 +9,7 @@
 /example_data/downloaded*
 *.tar
 *.tar.gz
+*.tar.gz.part.*
 /discord_sandbox/
 /demo_out/
 token_channel.csv

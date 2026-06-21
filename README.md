@@ -19,7 +19,7 @@ Code repository for the paper:
 ## Installation
 First you need to clone the repo:
 ```
-git clone --recursive https://github.com/geopavlakos/hamer.git
+git clone --recursive https://github.com/PINTO0309/hamer.git
 cd hamer
 ```
 
