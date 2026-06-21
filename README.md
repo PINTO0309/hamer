@@ -30,25 +30,6 @@ uv sync --python 3.10.12 --extra all
 source .venv/bin/activate
 ```
 
-Alternatively, create an environment with venv:
-```bash
-python3.10 -m venv .hamer  # Make sure this is Python 3.10.12.
-source .hamer/bin/activate
-```
-
-or alternatively conda:
-```bash
-conda create --name hamer python=3.10.12
-conda activate hamer
-```
-
-If you use venv or conda, install the rest of the dependencies with pip. This is for CUDA 12.8, but you can adapt accordingly:
-```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-pip install -e .[all]
-pip install -v -e third-party/ViTPose
-```
-
 You also need to download the trained models:
 ```bash
 bash fetch_demo_data.sh
