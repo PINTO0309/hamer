@@ -3,6 +3,7 @@
 /results/
 /sandbox/
 *.lock
+!uv.lock
 *.pt
 *.npy
 /example_data/downloaded*
@@ -103,6 +104,7 @@ ipython_config.py
 
 # pyenv
 .python-version
+!.python-version
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.

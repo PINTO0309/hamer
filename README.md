@@ -23,21 +23,29 @@ git clone --recursive https://github.com/geopavlakos/hamer.git
 cd hamer
 ```
 
-We recommend creating a virtual environment for HaMeR. You can use venv:
+We recommend using uv, which will create `.venv` with Python 3.10.12:
 ```bash
-python3.10 -m venv .hamer
+uv python install 3.10.12
+uv sync --python 3.10.12 --extra all
+uv pip install -v -e third-party/ViTPose
+source .venv/bin/activate
+```
+
+Alternatively, create an environment with venv:
+```bash
+python3.10 -m venv .hamer  # Make sure this is Python 3.10.12.
 source .hamer/bin/activate
 ```
 
 or alternatively conda:
 ```bash
-conda create --name hamer python=3.10
+conda create --name hamer python=3.10.12
 conda activate hamer
 ```
 
-Then, you can install the rest of the dependencies. This is for CUDA 11.7, but you can adapt accordingly:
+If you use venv or conda, install the rest of the dependencies with pip. This is for CUDA 12.8, but you can adapt accordingly:
 ```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu117
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 pip install -e .[all]
 pip install -v -e third-party/ViTPose
 ```
