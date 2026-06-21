@@ -27,7 +27,6 @@ We recommend using uv, which will create `.venv` with Python 3.10.12:
 ```bash
 uv python install 3.10.12
 uv sync --python 3.10.12 --extra all
-uv pip install -v -e third-party/ViTPose
 source .venv/bin/activate
 ```
 
