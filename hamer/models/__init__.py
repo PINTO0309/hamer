@@ -11,6 +11,15 @@ def download_models(folder=CACHE_DIR_HAMER):
     """
     import os
     os.makedirs(folder, exist_ok=True)
+    required_files = [
+        os.path.join(folder, "hamer_ckpts/checkpoints/hamer.ckpt"),
+        os.path.join(folder, "hamer_ckpts/model_config.yaml"),
+        os.path.join(folder, "vitpose_ckpts/vitpose+_huge/wholebody.pth"),
+        os.path.join(folder, "data/mano_mean_params.npz"),
+    ]
+    if all(os.path.exists(path) for path in required_files):
+        return
+
     download_files = {
         "hamer_demo_data.tar.gz"      : ["https://www.cs.utexas.edu/~pavlakos/hamer/data/hamer_demo_data.tar.gz", folder],
     }

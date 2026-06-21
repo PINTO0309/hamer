@@ -43,7 +43,8 @@ all = [
 include = ["hamer*"]
 
 [tool.uv]
-no-build-isolation-package = ["detectron2", "mmcv"]
+no-build-isolation-package = ["detectron2", "mmcv", "xtcocotools"]
+no-binary-package = ["xtcocotools"]
 dependency-metadata = [
     { name = "chumpy", version = "0.71", requires-dist = ["scipy", "six"] },
     { name = "detectron2", version = "0.6", requires-dist = ["black", "cloudpickle", "fvcore", "hydra-core", "iopath", "matplotlib", "omegaconf", "packaging", "pillow", "pycocotools", "tabulate", "tensorboard", "termcolor", "tqdm", "yacs"] },

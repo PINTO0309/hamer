@@ -28,7 +28,7 @@ def main():
     parser.add_argument('--save_mesh', dest='save_mesh', action='store_true', default=False, help='If set, save meshes to disk also')
     parser.add_argument('--batch_size', type=int, default=1, help='Batch size for inference/fitting')
     parser.add_argument('--rescale_factor', type=float, default=2.0, help='Factor for padding the bbox')
-    parser.add_argument('--body_detector', type=str, default='vitdet', choices=['vitdet', 'regnety'], help='Using regnety improves runtime and reduces memory')
+    parser.add_argument('--body_detector', type=str, default='auto', choices=['auto', 'vitdet', 'regnety'], help='auto uses regnety on GPUs with less than 12GB VRAM.')
     parser.add_argument('--file_type', nargs='+', default=['*.jpg', '*.png'], help='List of file extensions to consider')
 
     args = parser.parse_args()
@@ -39,12 +39,17 @@ def main():
 
     # Setup HaMeR model
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    total_vram = torch.cuda.get_device_properties(device).total_memory if device.type == 'cuda' else 0
     model = model.to(device)
     model.eval()
 
     # Load detector
     from hamer.utils.utils_detectron2 import DefaultPredictor_Lazy
-    if args.body_detector == 'vitdet':
+    if args.body_detector == 'auto':
+        body_detector = 'regnety' if 0 < total_vram < 12 * 1024**3 else 'vitdet'
+    else:
+        body_detector = args.body_detector
+    if body_detector == 'vitdet':
         from detectron2.config import LazyConfig
         import hamer
         cfg_path = Path(hamer.__file__).parent/'configs'/'cascade_mask_rcnn_vitdet_h_75ep.py'
@@ -53,7 +58,7 @@ def main():
         for i in range(3):
             detectron2_cfg.model.roi_heads.box_predictors[i].test_score_thresh = 0.25
         detector = DefaultPredictor_Lazy(detectron2_cfg)
-    elif args.body_detector == 'regnety':
+    elif body_detector == 'regnety':
         from detectron2 import model_zoo
         from detectron2.config import get_cfg
         detectron2_cfg = model_zoo.get_config('new_baselines/mask_rcnn_regnety_4gf_dds_FPN_400ep_LSJ.py', trained=True)
